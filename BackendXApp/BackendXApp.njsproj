@@ -33,6 +33,7 @@
     <Compile Include="app.js" />
     <Compile Include="models\database.js" />
     <Compile Include="models\experiment.js" />
+    <Compile Include="models\participant.js" />
     <Compile Include="public\js\controllers.js" />
     <Compile Include="public\js\app.js" />
     <Compile Include="public\js\menu.js" />

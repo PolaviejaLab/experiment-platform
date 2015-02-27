@@ -30,30 +30,57 @@
 
     <h2>Participants</h2>
 
-    <div class="row">
+    <div class="row" ng-controller="ParticipantListCtrl">
         <div class="col-md-6">
-            <table class="table">
+
+            <p ng-hide="participants.length">
+                No people have participated in this experiment.
+            </p>
+
+            <table class="table" ng-show="participants.length">
                 <tr>
                     <th>Participant ID</th>
-                    <th>Participation date</th>
                     <th>Status</th>
+                    <th></th>
                 </tr>
 
-                <tr>
-                    <td>ID</td>
-                    <td>{{ 0 | date }}</td>
-                    <td>Invited</td>
+                <tr ng-repeat="participant in participants">
+                    <td>{{ participant._id }}</td>
+                    <td>
+                        <span ng-show="participant.started && !participant.finished">
+                            Started on {{ participant.started | date }}
+                        </span>
+
+                        <span ng-hide="participant.started">
+                            Invited
+                        </span>
+
+                        <span ng-show="participant.finished">
+                            Finished on {{ participant.finished | date }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <a class="btn-sm btn-danger" ng-hide="participant.started" ng-click="delete_participant(participant)">
+                            <span class="glyphicon glyphicon-trash"></span> Revoke
+                        </a>
+                    </td>
                 </tr>
             </table>
+
+
+
+            <a class="btn btn-primary" ng-click="add_participant(experiment)">
+                <span class="glyphicon glyphicon-plus"></span> Generate participation code
+            </a>
+
+            <a class="btn btn-primary" href="#/experiments/{{ experiment._id }}/participants/invite">
+                <span class="glyphicon glyphicon-envelope"></span> Invite participants
+            </a>
+
+            <button class="btn btn-primary">
+                <span class="glyphicon glyphicon-download-alt"></span> Download dataset
+            </button>
         </div>
     </div>
-
-    <a class="btn btn-primary" href="#/experiments/{{ experiment._id }}/participants/invite">
-        <span class="glyphicon glyphicon-envelope"></span> Invite participants
-    </a>    
-
-    <button class="btn btn-primary">
-        <span class="glyphicon glyphicon-download-alt"></span> Download dataset
-    </button>    
-
 </div>

@@ -41,6 +41,31 @@ experimentBackendControllers.controller('ExperimentDetailCtrl', ['$scope', '$loc
 ])
 
 
+experimentBackendControllers.controller('ParticipantListCtrl', ['$scope', '$location', '$routeParams', 'Experiment', 'Participant',
+    function ($scope, $location, $routeParams, Experiment, Participant) {
+        Participant.query({ 'experiment': $routeParams.experimentId }, function (participants) {
+            $scope.participants = participants;
+        });
+
+        $scope.add_participant = function (experiment) {
+            var participant = new Participant({ 'experiment': experiment._id });
+            
+            participant.$save(function () {
+                $scope.participants.push(participant);
+            });
+        };
+
+        $scope.delete_participant = function (participant) {
+            participant.$delete(function () {
+                Participant.query({ 'experiment': $routeParams.experimentId }, function (participants) {
+                    $scope.participants = participants;
+                });
+            });
+        };
+    }
+])
+
+
 experimentBackendControllers.controller('ParticipantInviteCtrl', ['$scope', '$location', '$routeParams', 'Experiment', 'Participant',
     function ($scope, $location, $routeParams, Experiment, Participant) {
         Experiment.get(
