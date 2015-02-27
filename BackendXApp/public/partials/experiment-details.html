@@ -1,0 +1,59 @@
+﻿
+<div class="container">
+    <div class="page-header">
+        <h1>Experiment details</h1>
+    </div>
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="name">Identifier</label>
+            <div class="col-sm-6">
+                <input readonly type="text" class="form-control" name="name" ng-model="experiment._id" />
+            </div>
+        </div>
+
+        <ng-include src="'partials/experiment-form.html'"></ng-include>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" ng-click="update_experiment(experiment)">
+                    <span class="glyphicon glyphicon-pencil"></span> Update
+                </button>
+
+                <button class="btn btn-danger" ng-click="delete_experiment(experiment)">
+                    <span class="glyphicon glyphicon-trash"></span> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <h2>Participants</h2>
+
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table">
+                <tr>
+                    <th>Participant ID</th>
+                    <th>Participation date</th>
+                    <th>Status</th>
+                </tr>
+
+                <tr>
+                    <td>ID</td>
+                    <td>{{ 0 | date }}</td>
+                    <td>Invited</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <a class="btn btn-primary" href="#/experiments/{{ experiment._id }}/participants/invite">
+        <span class="glyphicon glyphicon-envelope"></span> Invite participants
+    </a>    
+
+    <button class="btn btn-primary">
+        <span class="glyphicon glyphicon-download-alt"></span> Download dataset
+    </button>    
+
+</div>

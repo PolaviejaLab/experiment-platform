@@ -1,0 +1,33 @@
+﻿
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="name">Name</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" name="name" ng-model="experiment.name" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="url">URL</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" name="url" ng-model="experiment.url" placeholder="http://link.to.experiment/:id" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="description">Description</label>
+        <div class="col-sm-6">
+            <textarea class="form-control" name="description" ng-model="experiment.description" placeholder="Explain what your experiment is about here."></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="status">Status</label>
+
+        <div class="col-sm-6">
+            <select name="status" class="form-control" ng-model="experiment.status">
+                <option value="open">Open for all participants</option>
+                <option value="invited">Open for invited participants</option>
+                <option value="closed">Closed</option>
+            </select>
+        </div>
+    </div>

@@ -1,0 +1,69 @@
+﻿<nav class="navbar navbar-inverse" ng-init="isCollapsed = true" ng-controller="MenuController">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header" ng-click="toggleCollapsed()">
+            <button type="button" class="navbar-toggle collapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="/">Online Experiment Platform</a>
+        </div>
+
+
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" collapse="isCollapsed">
+            <!--
+            <ul class="nav navbar-nav">
+                <li class="dropdown" ng-class="{ open: hasDroppedDown('experiments') }">
+                    <a href="#" class="dropdown-toggle" ng-click="toggleDropdown('experiments')">Experiment <span class="caret"></span></a>
+
+
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/ccu/experiment/list">Available experiments</a></li>
+                    </ul>
+
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" ng-class="{ open: hasDroppedDown('authentication') }">
+                    <a href="/ccu/login">Login</a>
+                </li>
+
+                <li class="dropdown" ng-class="{ open: hasDroppedDown('language') }">
+                    <a href="" ng-click="toggleDropdown('language')">
+                        <img class="language-flag" src="/ccu/bundles/app/images/flags/en.png" /> English
+                        <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="">
+                                <img class="language-flag" src="/ccu/bundles/app/images/flags/en.png" /> English
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img class="language-flag" src="/ccu/bundles/app/images/flags/pt.png" /> Português
+                            </a>
+                        </li>
+           				<li>
+                            <a href="">
+                               <img class="language-flag" src="/ccu/bundles/app/images/flags/nl.png" /> Nederlands
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img class="language-flag" src="/ccu/bundles/app/images/flags/de.png" /> Deutsch
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul> -->
+        </div>
+    </div>
+</nav>

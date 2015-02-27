@@ -1,0 +1,25 @@
+﻿
+<div class="container">
+    <div class="page-header">
+        <h1>Invite participants</h1>
+    </div>
+
+    <p class="alert alert-warning" ng-show="experiment.status == 'closed'">
+        <strong>Warning!</strong>
+        Experiment <strong>{{ experiment.name }}</strong> is <strong>closed</strong>, invited participants will not be able to take part
+        in the experiment at this point. To open the experiment for participation, please 
+        <a href="#/experiments/{{ experiment._id }}">change experiment details</a>.
+    </p>
+
+    <!-- CSV or list of Name, Email address -->
+
+    <div class="form-group">
+        <label for="">Email template</label>
+
+        <textarea class="form-control" placeholder="Write your email here."></textarea>
+    </div>
+
+    <button class="btn btn-primary">
+        Invite
+    </button>
+</div>

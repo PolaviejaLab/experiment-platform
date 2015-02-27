@@ -1,0 +1,48 @@
+﻿
+
+<div class="container">
+        <div class="page-header">
+            <h1>Experiments</h1>
+        </div>
+
+        <div class="col-xs-6">
+            <h2>Available experiments</h2>
+
+            <p ng-hide="experiments.length">
+                No experiments have been register, please create a new experiment to continue.
+            </p>
+
+        <div class="list-group">
+            <a ng-repeat="experiment in experiments" 
+               href="#/experiments/{{ experiment._id }}" 
+               class="list-group-item" 
+               ng-class="{'list-group-item-danger': experiment.status == 'closed', 
+                          'list-group-item-success': experiment.status == 'open',
+                          'list-group-item-warning': experiment.status == 'invited'}">
+                <h4 class="list-group-item-heading">{{ experiment.name }}</h4>
+                <p class="list-group-item-text">{{ experiment.description }}</p>
+            </a> 
+        </div>
+
+        </div>
+
+    <div class="container col-sm-6">
+    <h2>Register experiment</h2>
+ 
+        <p>
+            In order to start collecting data you must register your experiment first.
+            After registration you will need to copy the unique experiment identifier
+            into your experiment script.
+        </p>
+
+        <form novalidate class="form form-horizontal">
+            <ng-include src="'partials/experiment-form.html'"></ng-include>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" type="submit" ng-click="add_experiment(experiment)">Create experiment</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
