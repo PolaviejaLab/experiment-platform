@@ -40,7 +40,6 @@
     <Compile Include="public\js\menu.js" />
     <Compile Include="routes\index.js" />
     <Compile Include="routes\users.js" />
-    <Compile Include="bin\www" />
     <Content Include="package.json" />
     <Content Include="public\index.html" />
     <Content Include="public\menubar.html" />

@@ -18,9 +18,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
+
+
+// Allow all requests from other domains
+// This should be changed to allow access to parts of the system only.
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
+
+
+// Actual content / resources
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 app.use('/', routes);
 
 

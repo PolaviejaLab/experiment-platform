@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="experiment" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Demo experiment</title>
+
+        <meta charset="utf-8" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-resource.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular-route.js"></script>
+        <script src="experiment.js"></script>
+
+        <script>
+            var experimentId = '54f466b9fcbb05641a1bdbc3';
+        </script>
+    </head>
+
+    <body>
+        <ul ng-controller="ExperimentListCtrl">
+            <li ng-repeat="experiment in experiments">{{ experiment.name }}</li>
+        </ul>
+    </body>
+</html>
