@@ -12,17 +12,22 @@ router.delete('/experiment/(:id)', experiment.delete);
 
 
 router.get('/participant', participant.list);
+// Returns a participant with previous responses
+// Seeing the responses should show password
+//  router.get('/participant/(:id)', participant.findOne);
 router.post('/participant', participant.create);
 router.delete('/participant/(:id)', participant.delete);
 
-/**
- * Assign participant ID
- */
-/*router.post('/experiment/[id]/participant', function (req, res) {
-    var participant = new Participant({});
 
-    console.log(req);
-});*/
+// Start experiment
+//  router.post('/participant/(:id)/start');
+//  router.post('/participant/(:id)/stop');
+
+// Channel for server to client communication
+//  router.get('/participant/(:id)/source');
+
+// Channel for client to server communication
+//  router.post('/participant/(:id)/sink');
 
 //router.post('/experiment/id/participant/id/finished')
 
