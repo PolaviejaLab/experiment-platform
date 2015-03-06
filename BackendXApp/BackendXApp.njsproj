@@ -12,7 +12,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>cf2fada8-0d24-4c7b-81ec-4d7853e584b8</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>bin\www.js</StartupFile>
+    <StartupFile>bin\www</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
-    <Compile Include="bin\www.js" />
+    <Compile Include="bin\www" />
     <Compile Include="models\database.js" />
     <Compile Include="models\experiment.js" />
     <Compile Include="models\participant.js" />
