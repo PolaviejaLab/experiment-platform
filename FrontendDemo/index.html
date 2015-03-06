@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html ng-app="experiment" xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Demo experiment</title>
@@ -11,13 +11,26 @@
         <script src="experiment.js"></script>
 
         <script>
-            var experimentId = '54f466b9fcbb05641a1bdbc3';
+            var API = 'http://localhost:1337';
+
+            var experimentId = '54f084abfd8f02cc2645a072';
+            var participantId = '';
         </script>
     </head>
 
-    <body>
-        <ul ng-controller="ExperimentListCtrl">
-            <li ng-repeat="experiment in experiments">{{ experiment.name }}</li>
-        </ul>
+    <body ng-controller="Participant">
+        <div ng-show="errorCode" style="background: red; color: white;">
+            {{ errorCode }}
+        </div>
+
+        <b>Experiment:</b> {{ experiment.name }}<br />
+        <b>Participant:</b> {{ participant._id }}<br />
+        <br />
+        <b>Started:</b> {{ participant.started }}<br />
+        <b>Stopped:</b> {{ participant.finished }}<br />
+        <br />
+        <button ng-click="register()">Register</button>
+        <button ng-click="start()">Start</button>
+        <button ng-click="stop()">Stop</button>
     </body>
 </html>

@@ -16,12 +16,30 @@ exports.list = function (req, res) {
 }
 
 
+exports.findOne = function (req, res) {
+    Participant.findOne({ _id: req.params.id }, function (err, participant) {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.json(participant);
+        }
+    });
+}
+
+
 /**
  * Creates a new participant
  */
 exports.create = function (req, res) {
     if (!req.body.experiment)
         res.status(400); 
+    
+    console.log(req.body);
+    
+    if (!req.body.experiment) {
+        res.status(403).json({ message: 'Participant must be assinged to an experiment.' });
+        return;
+    }
 
     var participant = new Participant(req.body);
     

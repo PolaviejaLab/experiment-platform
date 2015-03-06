@@ -5,6 +5,27 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "BackendXApp", "BackendXApp\BackendXApp.njsproj", "{CF2FADA8-0D24-4C7B-81EC-4D7853E584B8}"
 EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "FrontendDemo", "http://localhost:63342", "{48861866-4E71-46DB-A886-FD1281F1DF53}"
+	ProjectSection(WebsiteProperties) = preProject
+		UseIISExpress = "true"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_63342"
+		Debug.AspNetCompiler.PhysicalPath = "FrontendDemo\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63342\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_63342"
+		Release.AspNetCompiler.PhysicalPath = "FrontendDemo\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63342\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "FrontendDemo\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +36,10 @@ Global
 		{CF2FADA8-0D24-4C7B-81EC-4D7853E584B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF2FADA8-0D24-4C7B-81EC-4D7853E584B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF2FADA8-0D24-4C7B-81EC-4D7853E584B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48861866-4E71-46DB-A886-FD1281F1DF53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48861866-4E71-46DB-A886-FD1281F1DF53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48861866-4E71-46DB-A886-FD1281F1DF53}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{48861866-4E71-46DB-A886-FD1281F1DF53}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
