@@ -107,7 +107,51 @@ router.post('/participant/(:id)/stop', function (req, res) {
 //  router.get('/participant/(:id)/source');
 
 // Channel for client to server communication
-//  router.post('/participant/(:id)/sink');
+router.post('/participant/(:id)/sink', function (req, res) {
+    // Find relevant participant
+    Participant.findOne({ _id: req.params.id }, function (err, participant) {
+        
+        // Could not find participant, return error
+        if (err) {
+            res.status(404).json(err);
+            return;
+        }
+        
+        // The experiment is already over
+        if (participant.finished) {
+            res.status(409).json(
+                { message: 'Experiment has already been terminated' }
+            );
+            return;
+        }
+        
+        // The experiment has already started
+        if (!participant.started) {
+            res.status(409).json(
+                { message: 'Experiment has not yet been started' }
+            );
+            return;
+        }
+        
+        // Update responses
+        var data = req.body;
+        var success = [];
+
+        for (var i in data) {
+            participant.responses.push(data[i])
+            success.push(i);
+        }
+                
+        participant.save(function(err, participant) {
+            if (err) {
+                res.status(410).json({ message: err });
+                return;
+            }
+            
+            res.status(200).json(success);
+        });
+    });
+});
 
 //router.post('/experiment/id/participant/id/finished')
 

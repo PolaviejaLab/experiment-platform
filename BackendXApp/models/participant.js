@@ -18,7 +18,9 @@ exports.list = function (req, res) {
 
 exports.findOne = function (req, res) {
     Participant.findOne({ _id: req.params.id }, function (err, participant) {
-        if (err) {
+        if (participant === null) {
+            res.status(404).json({ message: 'Participant not found' });
+        } else if (err) {
             res.status(500).json(err);
         } else {
             res.json(participant);
