@@ -7,7 +7,11 @@ var experimentSchema = new mongoose.Schema({
     'description': String,
     'url': String,
     'password': String,
-    'status': String
+    'status': String,
+    
+    // List of domains that are allowed to initiate 
+    // CORS requests for this experiment.
+    'domains': [{ 'domain': String }]
 });
 
 mongoose.model('Experiment', experimentSchema);
@@ -21,6 +25,8 @@ var participantSchema = new mongoose.Schema({
     'started': Date,
     'finished': Date,
 
+    // Response history for the participant
+    // this can grow quite large.
     'responses': [{
         'timestamp': Date,
         'field': String,
