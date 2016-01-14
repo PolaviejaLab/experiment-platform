@@ -1,13 +1,34 @@
-﻿var mongoose = require('./models/database.js')
+﻿/**
+ * Entry point for ExpressJS app responsible for
+ * managing research experiments and data.
+ */
 
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var routes = require('./routes/index');
-var users = require('./routes/users');
+// TCP Port to listen on
+var port = 3000;
+
+/**
+ * Import dependencies, this could fail in case
+ * any of the dependencies is missing.
+ */
+try {
+    var mongoose = require('./models/database.js')
+
+    var express = require('express');
+    var path = require('path');
+    var favicon = require('serve-favicon');
+    var logger = require('morgan');
+    var cookieParser = require('cookie-parser');
+    var bodyParser = require('body-parser');
+    var routes = require('./routes/index');
+    var users = require('./routes/users');
+} catch(e) {
+	console.log('Unable to load required modules, ' + 
+                'try `npm install` to install dependencies.');
+
+	console.log('Error:', e);
+	process.exit(1);
+}
+
 
 var app = express();
 
@@ -20,8 +41,11 @@ app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 
 
-// Allow all requests from other domains
-// This should be changed to allow access to parts of the system only.
+/**
+ * Allow all requests from other domains
+ * This should be changed to allow access to parts of the system only,
+ * and from specific domains only. See experiment.domains.
+ */
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -76,6 +100,5 @@ app.use(function (err, req, res, next) {
         }
     );
 });
-
 
 module.exports = app;

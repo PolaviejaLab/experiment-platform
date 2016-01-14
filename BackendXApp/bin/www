@@ -1,9 +1,19 @@
 ﻿#!/usr/bin/env node
-var debug = require('debug')('BackendXApp');
+
+//#var debug = require('debug')('BackendXApp');
 var app = require('../app');
 
 app.set('port', process.env.PORT || 3000);
 
+process.on("uncaughtException", function(err) {
+    if(err.errno == 'EADDRINUSE') {
+        console.log("ExpressJS could not start because a server is already running on port " + app.get('port'));
+        process.exit(1);
+    } else {
+        throw(err);
+    }
+});
+
 var server = app.listen(app.get('port'), function() {
-    debug('Express server listening on port ' + server.address().port);
+    console.log('Express server listening on port ' + server.address().port);
 });
