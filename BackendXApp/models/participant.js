@@ -17,7 +17,7 @@ exports.list = function (req, res) {
 
 
 exports.findOne = function (req, res) {
-    Participant.findOne({ _id: req.params.id }, function (err, participant) {
+    Participant.findOne({ _id: req.params.participantId }, function (err, participant) {
         if (participant === null) {
             res.status(404).json({ message: 'Participant not found' });
         } else if (err) {
@@ -36,16 +36,14 @@ exports.create = function (req, res) {
     if (!req.body.experiment)
         res.status(400); 
     
-    console.log(req.body);
-    
-    if (!req.body.experiment) {
+    if (!req.params.experimentId) {
         res.status(403).json({ message: 'Participant must be assinged to an experiment.' });
         return;
     }
 
-    var participant = new Participant(req.body);
-    
-    participant.save(function (err) {
+    var participant = new Participant({ 'experiment': req.params.experimentId });
+
+    participant.save(function(err) {
         if (err) {
             res.status(400).json(err);
         } else {
@@ -54,13 +52,14 @@ exports.create = function (req, res) {
     });
 }
 
+
 exports.delete = function (req, res) {
-    Participant.findOne({ _id: req.params.id }, function (err, experiment) {
+    Participant.findOne({ _id: req.params.participantId }, function (err, experiment) {
         if (err) {
             res.status(404).json(err);
         } else {
             if (!experiment.started) {
-                Participant.remove({ _id: req.params.id }, function (err) {
+                Participant.remove({ _id: req.params.participantId }, function (err) {
                     if (err)
                         res.json(false);
                     else

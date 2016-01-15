@@ -1,6 +1,6 @@
 ﻿var mongoose = require('mongoose');
 var Experiment = mongoose.model('Experiment');
-
+var url = require('url');
 
 /**
  * Returns a list of the available experiments.
@@ -20,7 +20,13 @@ exports.list = function (req, res) {
  * Returns a single experiment by id.
  */
 exports.findOne = function (req, res) {
-    Experiment.findOne({ _id: req.params.id }, function (err, experiment) {
+    Experiment.findOne({ _id: req.params.experimentId }, function (err, experiment) {
+        var parts = url.parse(experiment.url);
+        
+        res.header('Access-Control-Allow-Origin', parts['protocol'] + "//" + parts['hostname']);
+        res.header('Access-Control-Allow-Methods', 'GET');
+        res.header('Vary', 'Origin');
+
         if (err) {
             res.status(404).json(err);
         } else {
@@ -54,7 +60,7 @@ exports.update = function (req, res) {
     delete obj._id;
     delete obj.__v;
 
-    Experiment.findByIdAndUpdate(req.params.id, {
+    Experiment.findByIdAndUpdate(req.params.experimentId, {
         $set: obj
     }, { upsert: true }, function (err, experiment) {
         if (err) {
@@ -67,9 +73,7 @@ exports.update = function (req, res) {
 }
 
 exports.delete = function (req, res) {
-    //req.params.id;
-
-    Experiment.remove({ _id: req.params.id }, function (err) {
+    Experiment.remove({ _id: req.params.experimentId }, function (err) {
         if (err)
             res.json(false);
         else

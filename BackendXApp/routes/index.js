@@ -1,22 +1,52 @@
 ﻿var express = require('express');
 var router = express.Router();
+var url = require('url');
+
+var mongoose = require('mongoose');
+var Experiment = mongoose.model('Experiment');
 
 var experiment = require('../models/experiment.js');
 var participant = require('../models/participant.js');
 
 router.get('/experiment', experiment.list);
-router.get('/experiment/(:id)', experiment.findOne);
+
+router.get('/experiment/(:experimentId)', experiment.findOne);
+
 router.post('/experiment', experiment.create);
-router.post('/experiment/(:id)', experiment.update);
-router.delete('/experiment/(:id)', experiment.delete);
+router.post('/experiment/(:experimentId)', experiment.update);
+router.delete('/experiment/(:experimentId)', experiment.delete);
 
 
-router.get('/participant', participant.list);
+/**
+ * Send CORS header based on ExperimentId
+ */
+router.use('/experiment/(:experimentId)/participant(/*)?', function (req, res, next) 
+{
+    Experiment.findOne({ _id: req.params.experimentId }, function (err, experiment) 
+    {
+        if(err) {
+            res.sendStatus(500);
+            return;
+        }
+        
+        var parts = url.parse(experiment.url);
+        
+        res.header('Access-Control-Allow-Origin', parts['protocol'] + "//" + parts['hostname']);
+        res.header('Access-Control-Allow-Methods', 'GET,POST');
+        res.header('Access-Control-Allow-Headers', 'Content-Type');
+        res.header('Vary', 'Origin');
+
+        next();
+    });
+});
+
+
+router.get('/experiment/(:experimentId)/participant', participant.list);
 // Returns a participant with previous responses
 // Seeing the responses should show password
-router.get('/participant/(:id)', participant.findOne);
-router.post('/participant', participant.create);
-router.delete('/participant/(:id)', participant.delete);
+router.get('/experiment/(:experimentId)/participant/(:participantId)', participant.findOne);
+router.post('/experiment/(:experimentId)/participant', participant.create);
+router.delete('/experiment/(:experimentId)/participant/(:participantId)', participant.delete);
 
 
 // Start experiment
@@ -27,15 +57,20 @@ var Participant = mongoose.model('Participant');
 /**
  * Returns the current time on the server in milliseconds
  */
-router.get('/time', function(req, res) {
+router.get('/time', function(req, res) 
+{
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET');
+
     res.send(new Date().getTime().toString());
 });
 
 
-router.post('/participant/(:id)/start', function (req, res) {
+router.post('/experiment/(:experimentId)/participant/(:participantId)/start', function (req, res) 
+{
     // Find relevant participant
-    Participant.findOne({ _id: req.params.id }, function (err, participant) {
-        
+    Participant.findOne({ _id: req.params.participantId }, function (err, participant) 
+    {
         // Could not find participant, return error
         if (err) {
             res.status(404).json(err);
@@ -59,7 +94,7 @@ router.post('/participant/(:id)/start', function (req, res) {
         }
 
         // Start the participant
-        Participant.update({ _id: req.params.id, started: null }, { $set: { started: Date.now() } }, {}, function (err, num_affected) {
+        Participant.update({ _id: req.params.participantId, started: null }, { $set: { started: Date.now() } }, {}, function (err, num_affected) {
 
             if (err) {
                 res.status(410).json({ message: err });
@@ -67,15 +102,17 @@ router.post('/participant/(:id)/start', function (req, res) {
             }
 
             res.status(200).json({ message: 'Started' });
+            return;
         });
     });
 });
 
 
-router.post('/participant/(:id)/stop', function (req, res) {
+router.post('/experiment/(:experimentId)/participant/(:participantId)/stop', function (req, res) 
+{
     // Find relevant participant
-    Participant.findOne({ _id: req.params.id }, function (err, participant) {
-        
+    Participant.findOne({ _id: req.params.participantId }, function (err, participant) 
+    {
         // Could not find participant, return error
         if (err) {
             res.status(404).json(err);
@@ -99,7 +136,7 @@ router.post('/participant/(:id)/stop', function (req, res) {
         }
         
         // Start the participant
-        Participant.update({ _id: req.params.id, started: { '$ne': null }, finished: null }, { $set: { finished: Date.now() } }, {}, function (err, num_affected) {
+        Participant.update({ _id: req.params.participantId, started: { '$ne': null }, finished: null }, { $set: { finished: Date.now() } }, {}, function (err, num_affected) {
             
             if (err) {
                 res.status(410).json({ message: err });
@@ -115,10 +152,11 @@ router.post('/participant/(:id)/stop', function (req, res) {
 //  router.get('/participant/(:id)/source');
 
 // Channel for client to server communication
-router.post('/participant/(:id)/sink', function (req, res) {
+router.post('/experiment/(:experimentId)/participant/(:participantId)/sink', function (req, res) 
+{
     // Find relevant participant
-    Participant.findOne({ _id: req.params.id }, function (err, participant) {
-        
+    Participant.findOne({ _id: req.params.participantId }, function (err, participant) 
+    {
         // Could not find participant, return error
         if (err) {
             res.status(404).json(err);
