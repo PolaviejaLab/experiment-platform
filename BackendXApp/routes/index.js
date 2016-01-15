@@ -24,6 +24,14 @@ var mongoose = require('mongoose');
 var Participant = mongoose.model('Participant');
 
 
+/**
+ * Returns the current time on the server in milliseconds
+ */
+router.get('/time', function(req, res) {
+    res.send(new Date().getTime().toString());
+});
+
+
 router.post('/participant/(:id)/start', function (req, res) {
     // Find relevant participant
     Participant.findOne({ _id: req.params.id }, function (err, participant) {
