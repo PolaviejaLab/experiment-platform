@@ -3,7 +3,7 @@ var Participant = mongoose.model('Participant');
 
 
 /**
- * Returns a list of the available experiments.
+ * Returns a list of available participants for the experiment
  */
 exports.list = function (req, res) 
 {
@@ -17,6 +17,9 @@ exports.list = function (req, res)
 }
 
 
+/**
+ * Find a participant by ID
+ */
 exports.findOne = function (req, res) 
 {
     Participant.findOne({ _id: req.params.participantId }, function (err, participant) 
@@ -57,6 +60,9 @@ exports.create = function (req, res)
 }
 
 
+/**
+ * Remove participant, only works if no data is associated with the experiment.
+ */
 exports.delete = function (req, res) 
 {
     Participant.findOne({ _id: req.params.participantId }, function (err, experiment) {
