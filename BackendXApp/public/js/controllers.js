@@ -47,7 +47,7 @@ experimentBackendControllers.controller('ParticipantListCtrl', ['$scope', '$loca
             $scope.participants = participants;
         });
 
-        $scope.add_participant = function (experiment) {
+        $scope.add_participant = function(experiment) {
             var participant = new Participant({ 'experiment': experiment._id });
             
             participant.$save(function () {
@@ -55,11 +55,13 @@ experimentBackendControllers.controller('ParticipantListCtrl', ['$scope', '$loca
             });
         };
 
-        $scope.delete_participant = function (participant) {
+        $scope.delete_participant = function(participant) {
             participant.$delete(function () {
                 Participant.query({ 'experiment': $routeParams.experimentId }, function (participants) {
                     $scope.participants = participants;
                 });
+            }, function(err) { 
+                alert('Unable to delete participant (' + err.statusText + ').'); 
             });
         };
     }
