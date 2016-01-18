@@ -7,13 +7,16 @@ var Participant = mongoose.model('Participant');
  */
 exports.list = function (req, res) 
 {
-    Participant.find({ 'experiment': req.query.experiment }, function (err, participants) {
-        if (err) {
-            res.status(500).json(err);
-        } else {
-            res.json(participants);
-        }
-    });
+    Participant.find(
+        { 'experiment': req.params.experimentId }, 
+        { 'responses': false }, 
+        function (err, participants) {
+            if (err) {
+                res.status(500).json(err);
+            } else {
+                res.json(participants);
+            }
+        });
 }
 
 
