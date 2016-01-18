@@ -23,9 +23,14 @@ exports.list = function(req, res)
 exports.findOne = function(req, res) 
 {
     Experiment.findOne({ _id: req.params.experimentId }, function (err, experiment) {
-        var parts = url.parse(experiment.url);
+        var allowedOrigin = '*';
         
-        res.header('Access-Control-Allow-Origin', parts['protocol'] + "//" + parts['hostname']);
+        if(experiment.url !== undefined) {
+            var parts = url.parse(experiment.url);
+            allowedOrigin = parts['protocol'] + "//" + parts['hostname']
+        }
+        
+        res.header('Access-Control-Allow-Origin', allowedOrigin);
         res.header('Access-Control-Allow-Methods', 'GET');
         res.header('Vary', 'Origin');
 

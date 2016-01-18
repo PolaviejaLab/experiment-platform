@@ -24,14 +24,19 @@ router.use('/experiment/(:experimentId)/participant(/*)?', function (req, res, n
 {
     Experiment.findOne({ _id: req.params.experimentId }, function (err, experiment) 
     {
+        var allowedOrigin = '*';
+        
         if(err) {
             res.sendStatus(500);
             return;
         }
         
-        var parts = url.parse(experiment.url);
+        if(experiment.url !== undefined) {
+            var parts = url.parse(experiment.url);
+            allowedOrigin = parts['protocol'] + "//" + parts['hostname'];
+        }
         
-        res.header('Access-Control-Allow-Origin', parts['protocol'] + "//" + parts['hostname']);
+        res.header('Access-Control-Allow-Origin', allowedOrigin);
         res.header('Access-Control-Allow-Methods', 'GET,POST');
         res.header('Access-Control-Allow-Headers', 'Content-Type');
         res.header('Vary', 'Origin');
