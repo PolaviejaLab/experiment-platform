@@ -5,7 +5,8 @@ var Participant = mongoose.model('Participant');
 /**
  * Returns a list of the available experiments.
  */
-exports.list = function (req, res) {
+exports.list = function (req, res) 
+{
     Participant.find({ 'experiment': req.query.experiment }, function (err, participants) {
         if (err) {
             res.status(500).json(err);
@@ -16,8 +17,10 @@ exports.list = function (req, res) {
 }
 
 
-exports.findOne = function (req, res) {
-    Participant.findOne({ _id: req.params.participantId }, function (err, participant) {
+exports.findOne = function (req, res) 
+{
+    Participant.findOne({ _id: req.params.participantId }, function (err, participant) 
+    {
         if (participant === null) {
             res.status(404).json({ message: 'Participant not found' });
         } else if (err) {
@@ -32,7 +35,8 @@ exports.findOne = function (req, res) {
 /**
  * Creates a new participant
  */
-exports.create = function (req, res) {
+exports.create = function (req, res) 
+{
     if (!req.body.experiment)
         res.status(400); 
     
@@ -53,7 +57,8 @@ exports.create = function (req, res) {
 }
 
 
-exports.delete = function (req, res) {
+exports.delete = function (req, res) 
+{
     Participant.findOne({ _id: req.params.participantId }, function (err, experiment) {
         if (err) {
             res.status(404).json(err);
