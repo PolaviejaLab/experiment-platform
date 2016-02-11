@@ -5,11 +5,28 @@ var https = require('https');
 
 var port = process.env.PORT || 3000;
 var useSSL = true;
-var privateKey = fs.readFileSync('privatekey.pem');
-var certificate = fs.readFileSync('certificate.pem');
 
+if(useSSL)
+{
+    // Make sure we have read access to the certificates
+    try {
+        fs.accessSync('privatekey.pem', fs.R_OK)
+        fs.accessSync('certificate.pem', fs.R_OK)
+    } catch(ex) {
+        console.log('Unable to open "' + ex['path'] + '"');
+        process.exit(1);
+    }
+
+    // Load the certificates
+    var privateKey = fs.readFileSync('privatekey.pem');
+    var certificate = fs.readFileSync('certificate.pem');
+}
+
+
+// Open the application
 var app = require('../app');
 
+// Register exception handler, in case something goes wrong during startup.
 process.on("uncaughtException", function(err) {
     if(err.errno == 'EADDRINUSE') {
         console.log("ExpressJS could not start because a server is already running on port " + app.get('port'));
@@ -20,6 +37,7 @@ process.on("uncaughtException", function(err) {
     }
 });
 
+// Build options array
 var options;
 if(useSSL) {
     options = { key: privateKey, cert: certificate };
@@ -27,6 +45,7 @@ if(useSSL) {
     options = {};
 }
 
+// Start application
 https.createServer(options, app).listen(port, function() {
     console.log('Express server listening on port ' + port);
 });
