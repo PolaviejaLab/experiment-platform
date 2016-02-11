@@ -64,6 +64,37 @@ router.post('/participant/(:id)/start', function (req, res) {
 });
 
 
+router.post('/participant/(:id)/reopen', function(req, res) {
+    // Find relevant participant
+    Participant.findOne({ _id: req.params.id }, function (err, participant) {
+        
+        // Could not find participant, return error
+        if (err) {
+            res.status(404).json(err);
+            return;
+        }
+        
+        // The experiment is still running
+        if (!participant.finished) {
+            res.status(409).json(
+                { message: 'Experiment is still running' }
+            );
+            return;
+        }
+
+        // Start the participant
+        Participant.update({ _id: req.params.id, started: { '$ne': null }, finished: { '$ne': null }}, { $set: { finished: null } }, {}, function (err, num_affected) {
+
+            if (err) {
+                res.status(410).json({ message: err });
+                return;
+            }
+
+            res.status(200).json({ message: 'Reopened' });
+        });
+    });
+});
+
 router.post('/participant/(:id)/stop', function (req, res) {
     // Find relevant participant
     Participant.findOne({ _id: req.params.id }, function (err, participant) {

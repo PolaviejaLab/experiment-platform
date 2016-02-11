@@ -35,6 +35,10 @@ experimentBackendApp.config(['$routeProvider',
             when('/experiments/:experimentId/participants/invite', {
                 templateUrl: 'partials/participant-invite.html',
                 controller: 'ParticipantInviteCtrl'
+        }).
+        	when('/participants/:participantId', {
+        		templateUrl: 'partials/participant-details.html',
+        		controller: 'ParticipantDetailCtrl'
         });
 
     }]);

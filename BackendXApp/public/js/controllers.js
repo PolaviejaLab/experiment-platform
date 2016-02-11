@@ -1,4 +1,4 @@
-﻿
+
 var experimentBackendControllers = angular.module('experimentBackendControllers', []);
 
 
@@ -6,7 +6,7 @@ experimentBackendControllers.controller('ExperimentListCtrl', ['$scope', '$locat
     function ($scope, $location, Experiment) {
         $scope.experiment = {};
         $scope.experiments = Experiment.query();
-
+        
         $scope.add_experiment = function (exp) {
             var experiment = new Experiment($scope.experiment);
 
@@ -16,7 +16,7 @@ experimentBackendControllers.controller('ExperimentListCtrl', ['$scope', '$locat
             });
         }
     }
-])
+]);
 
 
 experimentBackendControllers.controller('ExperimentDetailCtrl', ['$scope', '$location', '$routeParams', 'Experiment',
@@ -38,15 +38,39 @@ experimentBackendControllers.controller('ExperimentDetailCtrl', ['$scope', '$loc
             experiment.$save();
         };
     }
-])
+]);
 
 
+/**
+ * Displays a list of participants
+ */
 experimentBackendControllers.controller('ParticipantListCtrl', ['$scope', '$location', '$routeParams', 'Experiment', 'Participant',
     function ($scope, $location, $routeParams, Experiment, Participant) {
-        Participant.query({ 'experiment': $routeParams.experimentId }, function (participants) {
-            $scope.participants = participants;
-        });
+        
+        /**
+         * Update list of participants, and find participant ID in responses
+         */
+        $scope.updateParticipantList = function()
+        {        
+            Participant.query({ 'experiment': $routeParams.experimentId }, function (participants) {
+                for(var i = 0; i < participants.length; i++) {
+                    
+                    for(var j = 0; j < participants[i].responses.length; j++) {
+                        var response = participants[i].responses[j];
+                        
+                        if(response.field == "ParticipantID")
+                            participants[i].participantID = response.value;
+                    }
+                }
+                
+                $scope.participants = participants;
+            });
+        }
 
+
+        /**
+         * Create a record for a new participant
+         */
         $scope.add_participant = function (experiment) {
             var participant = new Participant({ 'experiment': experiment._id });
             
@@ -55,15 +79,48 @@ experimentBackendControllers.controller('ParticipantListCtrl', ['$scope', '$loca
             });
         };
 
+
+        /**
+         * Remove a participant from the list, if data is associated it will only be hidden 
+         */
         $scope.delete_participant = function (participant) {
             participant.$delete(function () {
-                Participant.query({ 'experiment': $routeParams.experimentId }, function (participants) {
-                    $scope.participants = participants;
-                });
+                $scope.updateParticipantList();
             });
-        };
+        };   
+        
+        
+        /**
+         * Populate list at when controller starts
+         */
+        $scope.updateParticipantList();    
     }
-])
+]);
+
+
+experimentBackendControllers.controller('ParticipantDetailCtrl', ['$scope', '$location', '$routeParams', 'Participant',
+    function($scope, $location, $routeParams, Participant) {
+		Participant.get({
+			id : $routeParams.participantId
+		}, function(participant) {
+			$scope.participant = participant;
+			
+			var responses = {};
+			
+			for(var i = 0; i < participant.responses.length; i++) {
+				var response = participant.responses[i];
+
+				if(!(response.field in responses))
+					responses[response.field] = [];
+				
+				responses[ response.field ].push(response);				
+			}
+			
+			$scope.responses = responses;
+		});
+
+	} 
+]);
 
 
 experimentBackendControllers.controller('ParticipantInviteCtrl', ['$scope', '$location', '$routeParams', 'Experiment', 'Participant',
@@ -74,4 +131,4 @@ experimentBackendControllers.controller('ParticipantInviteCtrl', ['$scope', '$lo
                 $scope.experiment = experiment;
             });
     }
-])
+]);

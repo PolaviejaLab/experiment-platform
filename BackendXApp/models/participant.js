@@ -55,16 +55,28 @@ exports.create = function (req, res) {
 }
 
 exports.delete = function (req, res) {
-    Participant.findOne({ _id: req.params.id }, function (err, experiment) {
+    Participant.findOne({ _id: req.params.id }, function (err, participant) {
         if (err) {
             res.status(404).json(err);
         } else {
-            if (!experiment.started) {
+            // If the participant has not started, remove completely
+            if (!participant.started) {
                 Participant.remove({ _id: req.params.id }, function (err) {
                     if (err)
                         res.json(false);
                     else
                         res.json(true);
+                });
+            } else {
+                // Otherwise mark it as hidden
+                participant.hidden = true;
+                
+                participant.save(function(err) {
+                   if(err) {
+                       res.status(400).json(err);                       
+                   } else {
+                       res.status(201).json(participant);
+                   }
                 });
             }
         }

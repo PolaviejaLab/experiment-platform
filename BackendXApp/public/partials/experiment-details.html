@@ -1,4 +1,4 @@
-﻿
+
 <div class="container">
     <div class="page-header">
         <h1>Experiment details</h1>
@@ -41,11 +41,14 @@
                 <tr>
                     <th>Participant ID</th>
                     <th>Status</th>
+                    <th>Field</th>
                     <th></th>
                 </tr>
 
-                <tr ng-repeat="participant in participants">
-                    <td>{{ participant._id }}</td>
+                <tr ng-repeat="participant in participants | orderBy: '-started'" ng-hide="participant.hidden">
+                    <td>
+                    	<a href="#/participants/{{ participant._id }}">{{ participant._id }}</a>
+                    </td>
                     <td>
                         <span ng-show="participant.started && !participant.finished">
                             Started on {{ participant.started | date }}
@@ -59,10 +62,16 @@
                             Finished on {{ participant.finished | date }}
                         </span>
                     </td>
+                    
+                    <td>
+                    	{{ participant.participantID }}
+                    </td>
 
                     <td>
-                        <a class="btn-sm btn-danger" ng-hide="participant.started" ng-click="delete_participant(participant)">
-                            <span class="glyphicon glyphicon-trash"></span> Revoke
+                        <a class="btn-sm btn-danger" ng-click="delete_participant(participant)">
+                            <span class="glyphicon glyphicon-trash"></span> 
+                            <span ng-hide="participant.started">Revoke</span>
+                            <span ng-show="participant.started">Delete</span>
                         </a>
                     </td>
                 </tr>

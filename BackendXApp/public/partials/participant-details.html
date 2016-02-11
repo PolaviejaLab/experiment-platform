@@ -1,0 +1,42 @@
+
+<div class="container">
+	<div class="page-header">
+		<h1>Participant details</h1>
+	</div>
+	
+	<div>
+		Experiment status: 
+		
+		<span ng-show="participant.started && !participant.finished">
+			<b>still running</b>, started on {{ participant.started | date }}.
+		</span>
+	
+		<span ng-hide="participant.started">
+			<b>not started</b>.
+		</span>
+	
+		<span ng-show="participant.finished">
+			<b>finished</b>, on {{ participant.finished | date }}. <a ng-click="">Reopen</a>.
+		</span>
+	</div>
+	
+	<!-- {{ participant.experiment }} -->
+	
+	<div class="col-md-8">
+	<table class="table">
+		<tr>
+			<th>Field</th>
+			<th>Values</th>
+		</tr>
+		
+		<tr ng-repeat="response in responses">
+			<td>{{ response[0].field }}</td>
+			<td>
+				<span ng-repeat="resp in response">
+					{{ resp.value }},
+				</span>
+			</td>
+		</tr>
+	</table>
+	</div>
+</div>
