@@ -1,9 +1,51 @@
 ﻿#!/usr/bin/env node
-var debug = require('debug')('BackendXApp');
+
+var fs = require('fs');
+var https = require('https');
+
+var port = process.env.PORT || 3000;
+var useSSL = true;
+
+if(useSSL)
+{
+    // Make sure we have read access to the certificates
+    try {
+        fs.accessSync('privatekey.pem', fs.R_OK)
+        fs.accessSync('certificate.pem', fs.R_OK)
+    } catch(ex) {
+        console.log('Unable to open "' + ex['path'] + '"');
+        process.exit(1);
+    }
+
+    // Load the certificates
+    var privateKey = fs.readFileSync('privatekey.pem');
+    var certificate = fs.readFileSync('certificate.pem');
+}
+
+
+// Open the application
 var app = require('../app');
 
-app.set('port', process.env.PORT || 3000);
+// Register exception handler, in case something goes wrong during startup.
+process.on("uncaughtException", function(err) {
+    if(err.errno == 'EADDRINUSE') {
+        console.log("ExpressJS could not start because a server is already running on port " + app.get('port'));
+        process.exit(1);
+    } else {
+        console.log('>>', err);
+        throw(err);
+    }
+});
 
-var server = app.listen(app.get('port'), function() {
-    debug('Express server listening on port ' + server.address().port);
+// Build options array
+var options;
+if(useSSL) {
+    options = { key: privateKey, cert: certificate };
+} else {
+    options = {};
+}
+
+// Start application
+https.createServer(options, app).listen(port, function() {
+    console.log('Express server listening on port ' + port);
 });

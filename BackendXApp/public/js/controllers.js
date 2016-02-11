@@ -67,7 +67,6 @@ experimentBackendControllers.controller('ParticipantListCtrl', ['$scope', '$loca
             });
         }
 
-
         /**
          * Create a record for a new participant
          */

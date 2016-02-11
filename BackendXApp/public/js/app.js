@@ -13,8 +13,8 @@ experimentBackendApp.factory('Experiment', ['$resource', function ($resource) {
 
 
 experimentBackendApp.factory('Participant', ['$resource', function ($resource) {
-        return $resource('participant/:id', { id: "@_id" })
-    }]);
+    return $resource('experiment/:experiment/participant/:id', { id: "@_id", experiment: "@experiment" });
+}]);
 
 
 experimentBackendApp.config(['$routeProvider',
