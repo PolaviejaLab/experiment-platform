@@ -24,8 +24,8 @@ exports.findOne = function(req, res)
 {
     Experiment.findOne({ _id: req.params.experimentId }, function (err, experiment) {
         var allowedOrigin = '*';
-        
-        if(experiment.url !== undefined) {
+
+        if(experiment !== null && experiment.url !== undefined) {
             var parts = url.parse(experiment.url);
             allowedOrigin = parts['protocol'] + "//" + parts['hostname']
         }
@@ -34,8 +34,10 @@ exports.findOne = function(req, res)
         res.header('Access-Control-Allow-Methods', 'GET');
         res.header('Vary', 'Origin');
 
-        if (err) {
-            res.status(404).json(err);
+        if (experiment === null) {
+            res.status(404).json({ message: 'Experiment not found' });
+        } else if(err) {
+            res.status(500).json(err);
         } else {
             res.json(experiment);
         }
