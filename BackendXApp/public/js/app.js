@@ -1,5 +1,4 @@
-﻿(function() {
-    
+﻿(function() {    
     var module = angular.module('experimentFrameworkApp', [
         'ngRoute',
         'ngResource',

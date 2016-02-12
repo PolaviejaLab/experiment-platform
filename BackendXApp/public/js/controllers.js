@@ -2,6 +2,10 @@
        
     var module = angular.module('experimentFrameworkControllers', []);
 
+
+    /**
+     * List experiments
+     */
     module.controller('ExperimentListController', ['$scope', '$location', 'Experiment',
         function ($scope, $location, Experiment) {
             $scope.experiment = {};
@@ -19,6 +23,9 @@
     ]);
 
 
+    /**
+     * Experiment details
+     */
     module.controller('ExperimentDetailController', ['$scope', '$location', '$routeParams', 'Experiment',
         function ($scope, $location, $routeParams, Experiment) {
             Experiment.get(
@@ -97,6 +104,9 @@
     ]);
 
 
+    /**
+     * Participant details
+     */
     module.controller('ParticipantDetailController', ['$scope', '$location', '$routeParams', 'Participant',
         function($scope, $location, $routeParams, Participant) {
             Participant.get({
