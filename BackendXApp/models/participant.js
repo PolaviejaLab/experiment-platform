@@ -62,6 +62,10 @@ exports.create = function (req, res)
     });
 }
 
+
+/**
+ * Removes or hides a participant
+ */
 exports.delete = function (req, res) {
     Participant.findOne({ _id: req.params.id }, function (err, participant) {
         if (err) {
