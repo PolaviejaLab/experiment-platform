@@ -2,7 +2,7 @@
 var experimentBackendControllers = angular.module('experimentBackendControllers', []);
 
 
-experimentBackendControllers.controller('ExperimentListCtrl', ['$scope', '$location', 'Experiment',
+experimentBackendControllers.controller('ExperimentListController', ['$scope', '$location', 'Experiment',
     function ($scope, $location, Experiment) {
         $scope.experiment = {};
         $scope.experiments = Experiment.query();
@@ -19,7 +19,7 @@ experimentBackendControllers.controller('ExperimentListCtrl', ['$scope', '$locat
 ]);
 
 
-experimentBackendControllers.controller('ExperimentDetailCtrl', ['$scope', '$location', '$routeParams', 'Experiment',
+experimentBackendControllers.controller('ExperimentDetailController', ['$scope', '$location', '$routeParams', 'Experiment',
     function ($scope, $location, $routeParams, Experiment) {
         Experiment.get(
             { id: $routeParams.experimentId }, 
@@ -44,7 +44,7 @@ experimentBackendControllers.controller('ExperimentDetailCtrl', ['$scope', '$loc
 /**
  * Displays a list of participants
  */
-experimentBackendControllers.controller('ParticipantListCtrl', ['$scope', '$location', '$routeParams', 'Experiment', 'Participant',
+experimentBackendControllers.controller('ParticipantListController', ['$scope', '$location', '$routeParams', 'Experiment', 'Participant',
     function ($scope, $location, $routeParams, Experiment, Participant) {
         
         /**
@@ -97,10 +97,11 @@ experimentBackendControllers.controller('ParticipantListCtrl', ['$scope', '$loca
 ]);
 
 
-experimentBackendControllers.controller('ParticipantDetailCtrl', ['$scope', '$location', '$routeParams', 'Participant',
+experimentBackendControllers.controller('ParticipantDetailController', ['$scope', '$location', '$routeParams', 'Participant',
     function($scope, $location, $routeParams, Participant) {
 		Participant.get({
-			id : $routeParams.participantId
+			id : $routeParams.participantId,
+            experiment: $routeParams.experimentId,
 		}, function(participant) {
 			$scope.participant = participant;
 			
@@ -122,7 +123,7 @@ experimentBackendControllers.controller('ParticipantDetailCtrl', ['$scope', '$lo
 ]);
 
 
-experimentBackendControllers.controller('ParticipantInviteCtrl', ['$scope', '$location', '$routeParams', 'Experiment', 'Participant',
+experimentBackendControllers.controller('ParticipantInviteController', ['$scope', '$location', '$routeParams', 'Experiment', 'Participant',
     function ($scope, $location, $routeParams, Experiment, Participant) {
         Experiment.get(
             { id: $routeParams.experimentId },

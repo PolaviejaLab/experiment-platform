@@ -12,33 +12,32 @@ experimentBackendApp.factory('Experiment', ['$resource', function ($resource) {
 }]);
 
 
-experimentBackendApp.factory('Participant', ['$resource', function ($resource) {
+experimentBackendApp.factory('Participant', ['$resource', function ($resource) {    
     return $resource('experiment/:experiment/participant/:id', { id: "@_id", experiment: "@experiment" });
 }]);
 
 
 experimentBackendApp.config(['$routeProvider',
     function ($routeProvider) {
-
         $routeProvider.
             when('/', {
                 redirectTo: '/experiments'
         }).
             when('/experiments', {
                 templateUrl: 'partials/experiment-list.html',
-                controller: 'ExperimentListCtrl'
+                controller: 'ExperimentListController'
         }).
             when('/experiments/:experimentId', {
                 templateUrl: 'partials/experiment-details.html',
-                controller: 'ExperimentDetailCtrl'
+                controller: 'ExperimentDetailController'
         }).
             when('/experiments/:experimentId/participants/invite', {
                 templateUrl: 'partials/participant-invite.html',
-                controller: 'ParticipantInviteCtrl'
+                controller: 'ParticipantInviteController'
         }).
-        	when('/participants/:participantId', {
+        	when('/experiment/:experimentId/participants/:participantId', {
         		templateUrl: 'partials/participant-details.html',
-        		controller: 'ParticipantDetailCtrl'
+        		controller: 'ParticipantDetailController'
         });
-
-    }]);
+    }
+]);

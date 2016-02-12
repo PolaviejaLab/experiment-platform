@@ -30,7 +30,7 @@
 
     <h2>Participants</h2>
 
-    <div class="row" ng-controller="ParticipantListCtrl">
+    <div class="row" ng-controller="ParticipantListController">
         <div class="col-md-6">
 
             <p ng-hide="participants.length">
@@ -47,7 +47,7 @@
 
                 <tr ng-repeat="participant in participants | orderBy: '-started'" ng-hide="participant.hidden">
                     <td>
-                    	<a href="#/participants/{{ participant._id }}">{{ participant._id }}</a>
+                    	<a href="#/experiment/{{ experiment._id }}/participants/{{ participant._id }}">{{ participant._id }}</a>
                     </td>
                     <td>
                         <span ng-show="participant.started && !participant.finished">
