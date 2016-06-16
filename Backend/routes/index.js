@@ -26,11 +26,11 @@ router.use('/experiment/(:experimentId)/participant(/*)?', function (req, res, n
     {
         var allowedOrigin = '*';
         
-        if(err) {
+        if(err || experiment === null) {
             res.sendStatus(500);
             return;
         }
-        
+
         if(experiment.url !== undefined) {
             var parts = url.parse(experiment.url);
             allowedOrigin = parts['protocol'] + "//" + parts['hostname'];
