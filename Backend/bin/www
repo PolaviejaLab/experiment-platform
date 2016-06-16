@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
+var http = require('http');
 var https = require('https');
 
 var port = process.env.PORT || 3000;
-var useSSL = true;
+var useSSL = false;
 
 if(useSSL)
 {
@@ -40,14 +41,15 @@ process.on("uncaughtException", function(err) {
 // Build options array
 var options;
 if(useSSL) {
-    options = { key: privateKey, cert: certificate };
+  options = { key: privateKey, cert: certificate };
+
+	// Start application
+	https.createServer(options, app).listen(port, function() {
+  	  console.log('Express HTTPS server listening on port ' + port);
+	});
 } else {
-    options = {};
+	app.listen(port, function() {
+		console.log('Express HTTP server listening on port ' + port);
+  });
 }
-
-// Start application
-https.createServer(options, app).listen(port, function() {
-    console.log('Express server listening on port ' + port);
-});
-
 
